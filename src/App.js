@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import InputTask from "./component/InputTask";
 import TaskList from "./component/TaskList";
 import toast, { Toaster } from "react-hot-toast";
 
 function App() {
+  const allTask = JSON.parse(localStorage.getItem("allTask"));
   const [task, setTask] = useState("");
-  const [taskContainer, setTaskContainer] = useState([]);
+  const [taskContainer, setTaskContainer] = useState(allTask);
   const [openEditTask, setOpenEditTask] = useState(false);
   const [editText, setEditText] = useState("");
   const [editIndex, setEditIndex] = useState(null);
@@ -13,6 +14,7 @@ function App() {
   const addTodo = () => {
     if (task.trim() !== "") {
       setTaskContainer([...taskContainer, task]);
+      localStorage.setItem("allTask", JSON.stringify([...taskContainer, task]));
       setTask("");
     } else {
       toast.error("Please enter some text");
@@ -23,12 +25,14 @@ function App() {
     const newTodos = [...taskContainer];
     newTodos.splice(index, 1);
     setTaskContainer(newTodos);
+    localStorage.setItem("allTask", JSON.stringify(newTodos));
   };
   const editTodo = () => {
     if (editText.trim() !== "") {
       const newTodos = [...taskContainer];
       newTodos[editIndex] = editText;
       setTaskContainer(newTodos);
+      localStorage.setItem("allTask", JSON.stringify(newTodos));
       setEditIndex(null);
       setOpenEditTask(false);
     } else {
