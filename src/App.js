@@ -1,24 +1,54 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import InputTask from "./component/InputTask";
+import TaskList from "./component/TaskList";
 
 function App() {
+  const [task, setTask] = useState("");
+  const [taskContainer, setTaskContainer] = useState([]);
+  const [openEditTask, setOpenEditTask] = useState(false);
+  const [editText, setEditText] = useState("");
+  const [editIndex, setEditIndex] = useState(null);
+
+  const addTodo = () => {
+    if (task.trim() !== "") {
+      setTaskContainer([...taskContainer, task]);
+      setTask("");
+    }
+  };
+
+  const removeTodo = (index) => {
+    const newTodos = [...taskContainer];
+    newTodos.splice(index, 1);
+    setTaskContainer(newTodos);
+  };
+  const editTodo = () => {
+    if (editText.trim() !== "") {
+      const newTodos = [...taskContainer];
+      newTodos[editIndex] = editText;
+      setTaskContainer(newTodos);
+      setEditIndex(null);
+      setOpenEditTask(false);
+    }
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <InputTask
+        setTask={setTask}
+        task={task}
+        addTodo={addTodo}
+        openEditTask={openEditTask}
+        setEditText={setEditText}
+        editText={editText}
+        editTodo={editTodo}
+      />
+      <TaskList
+        taskContainer={taskContainer}
+        removeTodo={removeTodo}
+        setOpenEditTask={setOpenEditTask}
+        setEditText={setEditText}
+        setEditIndex={setEditIndex}
+      />
+    </>
   );
 }
 
