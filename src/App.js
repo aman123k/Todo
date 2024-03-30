@@ -1,6 +1,7 @@
 import { useState } from "react";
 import InputTask from "./component/InputTask";
 import TaskList from "./component/TaskList";
+import toast, { Toaster } from "react-hot-toast";
 
 function App() {
   const [task, setTask] = useState("");
@@ -13,6 +14,8 @@ function App() {
     if (task.trim() !== "") {
       setTaskContainer([...taskContainer, task]);
       setTask("");
+    } else {
+      toast.error("Please enter some text");
     }
   };
 
@@ -28,6 +31,8 @@ function App() {
       setTaskContainer(newTodos);
       setEditIndex(null);
       setOpenEditTask(false);
+    } else {
+      toast.error("Please enter some text to update");
     }
   };
   return (
@@ -48,6 +53,7 @@ function App() {
         setEditText={setEditText}
         setEditIndex={setEditIndex}
       />
+      <Toaster />
     </>
   );
 }
