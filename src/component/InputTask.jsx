@@ -49,7 +49,7 @@ function InputTask({
             }}
             className=" bg-[#1D1DF5] px-16 text-white flex-shrink-0 py-2 max-[650px]:px-6 rounded-md tracking-wide"
           >
-            Sumit
+            Submit
           </button>
         </form>
       )}
